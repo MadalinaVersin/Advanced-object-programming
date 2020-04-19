@@ -35,7 +35,7 @@ public class Serviciu {
         Client clientNou = new Client(numeClient, adresaClient, cnpClinet, conturi, plati);
         banca.addClientInList(clientNou);
 
-        audit("Adauga Client",new Date());
+        audit("Adauga Client", new Date());
 
 
     }
@@ -180,7 +180,7 @@ public class Serviciu {
             System.out.println("Clientul nu se afla in baza de date !");
         }
 
-        audit("Adauga Plata",new Date());
+        audit("Adauga Plata", new Date());
     }
 
     public static void afiseazaPati(Banca banca, String cnpClient) {

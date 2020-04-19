@@ -7,7 +7,7 @@ public class ContBancar {
     protected String cnpDetinator;
     protected Integer tip;
 
-    public ContBancar(Float suma, String numarCont, String valuta, String cnpDetinator,Integer tip) {
+    public ContBancar(Float suma, String numarCont, String valuta, String cnpDetinator, Integer tip) {
         this.suma = suma;
         this.numarCont = numarCont;
         this.valuta = valuta;
@@ -15,7 +15,8 @@ public class ContBancar {
         this.tip = tip;
     }
 
-    public ContBancar(){}
+    public ContBancar() {
+    }
 
     public String getNumarCont() {
         return numarCont;

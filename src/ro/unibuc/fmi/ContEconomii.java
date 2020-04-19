@@ -3,7 +3,7 @@ package ro.unibuc.fmi;
 public class ContEconomii extends ContBancar implements Operatiuni {
     Float dobanda;
 
-    public ContEconomii(Float suma, String numarCont, String valuta, String cnpDetinator, Integer tip,Float dobanda) {
+    public ContEconomii(Float suma, String numarCont, String valuta, String cnpDetinator, Integer tip, Float dobanda) {
         super(suma, numarCont, valuta, cnpDetinator, tip);
         this.dobanda = dobanda;
     }

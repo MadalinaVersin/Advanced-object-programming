@@ -7,7 +7,7 @@ public class PlataFacturi extends Plata {
 
 
     public PlataFacturi(String cnpClient, String nrPlata, Float suma, Integer tip, String serieFactura, String furnizor, String idClient) {
-        super(cnpClient, nrPlata, suma ,tip);
+        super(cnpClient, nrPlata, suma, tip);
         this.serieFactura = serieFactura;
         this.furnizor = furnizor;
         this.idClient = idClient;

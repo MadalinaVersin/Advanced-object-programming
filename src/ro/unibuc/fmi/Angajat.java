@@ -14,8 +14,11 @@ public class Angajat implements Comparable<Angajat> {
 
 
     }
-    public Angajat(){
-    };
+
+    public Angajat() {
+    }
+
+    ;
 
     public String getNume() {
         return nume;

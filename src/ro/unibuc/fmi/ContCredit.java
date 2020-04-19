@@ -1,10 +1,10 @@
 package ro.unibuc.fmi;
 
-public class ContCredit extends ContBancar implements Operatiuni{
+public class ContCredit extends ContBancar implements Operatiuni {
 
     Float comision;
 
-    public ContCredit(Float suma, String numarCont, String valuta,String cnpDetinator, Integer tip,Float comision) {
+    public ContCredit(Float suma, String numarCont, String valuta, String cnpDetinator, Integer tip, Float comision) {
         super(suma, numarCont, valuta, cnpDetinator, tip);
         this.comision = comision;
     }
@@ -15,8 +15,8 @@ public class ContCredit extends ContBancar implements Operatiuni{
 
     @Override
     public Float depunere(Float sumaDepusa) {
-       suma = suma - sumaDepusa;
-       return suma;
+        suma = suma - sumaDepusa;
+        return suma;
     }
 
     @Override
@@ -25,7 +25,6 @@ public class ContCredit extends ContBancar implements Operatiuni{
         suma = suma + sumaExtrasa;
         return suma;
     }
-
 
 
     @Override

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
 public class Main {
 
     public static void main(String[] args) throws IOException {
@@ -19,17 +20,15 @@ public class Main {
         Plata plata = new Plata();
 
 
-
         BufferedReader anjazati = new BufferedReader(new FileReader("angajati.csv"));
-        if(anjazati.readLine() != null) {
+        if (anjazati.readLine() != null) {
             banca.setAngajatiLista(Persistenta.read(angajat));
         }
 
         BufferedReader clienti = new BufferedReader(new FileReader("clienti.csv"));
-        if(clienti.readLine() != null) {
+        if (clienti.readLine() != null) {
             banca.setClientiLista(Persistenta.read(client));
         }
-
 
 
         Serviciu serviciu = new Serviciu();
@@ -74,7 +73,7 @@ public class Main {
 
             }
 
-            if (optiune == 4 ) {
+            if (optiune == 4) {
 
                 System.out.println("A fost aleasa optiunea: " + optiune);
                 Serviciu.afiseazaAngajatiBanca(banca);
@@ -160,11 +159,11 @@ public class Main {
 
             }
 
-            if(optiune == 0){
-                Persistenta.writeToFile(angajat,banca);
-                Persistenta.writeToFile(client,banca);
-                Persistenta.writeToFile(cont,banca);
-                Persistenta.writeToFile(plata,banca);
+            if (optiune == 0) {
+                Persistenta.writeToFile(angajat, banca);
+                Persistenta.writeToFile(client, banca);
+                Persistenta.writeToFile(cont, banca);
+                Persistenta.writeToFile(plata, banca);
 
             }
 

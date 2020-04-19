@@ -1,6 +1,6 @@
 package ro.unibuc.fmi;
 
-public class Plata implements  Tranzactie{
+public class Plata implements Tranzactie {
     protected String cnpClient;
     protected String nrPlata;
     protected Float suma;
@@ -13,7 +13,9 @@ public class Plata implements  Tranzactie{
         this.tip = tip;
 
     }
-    public Plata(){}
+
+    public Plata() {
+    }
 
     public String getCnpClient() {
         return cnpClient;
@@ -33,7 +35,7 @@ public class Plata implements  Tranzactie{
 
     @Override
     public void afiseazaTranzactia() {
-        System.out.print("S-a efectuat plata cu numarul "+"de catre clientul "+cnpClient);
+        System.out.print("S-a efectuat plata cu numarul " + "de catre clientul " + cnpClient);
 
     }
 
