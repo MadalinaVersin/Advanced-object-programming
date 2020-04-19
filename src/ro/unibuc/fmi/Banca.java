@@ -20,10 +20,10 @@ public class Banca {
         clientiLista.remove(client);
     }
 
-    public void afiseazaClienti(){
+    public void afiseazaClienti() {
         System.out.println("Se afiseaza clientii banicii");
         for (Client client : clientiLista) {
-            System.out.println("Client :"+ client.getNume()+" cu cnp-ul " + client.cnp );
+            System.out.println("Client :" + client.getNume() + " cu cnp-ul " + client.cnp);
 
         }
     }
@@ -33,7 +33,7 @@ public class Banca {
         System.out.println("Angajatii bancii sunt : ");
         Collections.sort(angajatiLista);
         for (Angajat angajat : angajatiLista) {
-            System.out.println("Angajatul: "+ angajat.nume + " " + angajat.prenume + " are codul " + angajat.codAngajat);
+            System.out.println("Angajatul: " + angajat.nume + " " + angajat.prenume + " are codul " + angajat.codAngajat);
         }
     }
 
@@ -41,6 +41,17 @@ public class Banca {
 
         angajatiLista.add(angajat);
         System.out.println("Angajatul a fost adaugat !");
+    }
+
+    public void setAngajatiLista(List<Angajat> angajatiLista) {
+        this.angajatiLista = angajatiLista;
+    }
+
+    public void setClientiLista(List<Client> clienti) {
+        for (Client client : clienti) {
+            clientiLista.add(client);
+        }
+
     }
 
     public Set<Client> getClientList() {
@@ -54,7 +65,6 @@ public class Banca {
     public List<Angajat> getAngajatList() {
         return angajatiLista;
     }
-
 
 
 }

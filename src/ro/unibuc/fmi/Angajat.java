@@ -14,6 +14,8 @@ public class Angajat implements Comparable<Angajat> {
 
 
     }
+    public Angajat(){
+    };
 
     public String getNume() {
         return nume;
@@ -26,6 +28,11 @@ public class Angajat implements Comparable<Angajat> {
     public String getCodAngajat() {
         return codAngajat;
     }
+
+    public String getCnp() {
+        return cnp;
+    }
+
     //folosita pentru a sorta angajatii in ordinea alfabetica;
     @Override
     public int compareTo(Angajat o) {

@@ -1,11 +1,15 @@
 package ro.unibuc.fmi;
 
-public class ContEconomii extends ContBancar implements Operatiuni{
+public class ContEconomii extends ContBancar implements Operatiuni {
     Float dobanda;
 
-    public ContEconomii(Float suma, String numarCont, String valuta, Float dobanda) {
-        super(suma, numarCont, valuta);
+    public ContEconomii(Float suma, String numarCont, String valuta, String cnpDetinator, Integer tip,Float dobanda) {
+        super(suma, numarCont, valuta, cnpDetinator, tip);
         this.dobanda = dobanda;
+    }
+
+    public Float getDobanda() {
+        return dobanda;
     }
 
     @Override

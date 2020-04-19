@@ -4,9 +4,13 @@ public class ContCredit extends ContBancar implements Operatiuni{
 
     Float comision;
 
-    public ContCredit(Float suma, String numarCont, String valuta, Float comision) {
-        super(suma, numarCont, valuta);
+    public ContCredit(Float suma, String numarCont, String valuta,String cnpDetinator, Integer tip,Float comision) {
+        super(suma, numarCont, valuta, cnpDetinator, tip);
         this.comision = comision;
+    }
+
+    public Float getComision() {
+        return comision;
     }
 
     @Override

@@ -6,10 +6,22 @@ public class PlataFacturi extends Plata {
     String idClient;
 
 
-    public PlataFacturi(String angajat, String data, String ora, String nrPlata, String serieFactura, String furnizor, String idClient) {
-        super(angajat, data, ora, nrPlata);
+    public PlataFacturi(String cnpClient, String nrPlata, Float suma, Integer tip, String serieFactura, String furnizor, String idClient) {
+        super(cnpClient, nrPlata, suma ,tip);
         this.serieFactura = serieFactura;
         this.furnizor = furnizor;
         this.idClient = idClient;
+    }
+
+    public String getSerieFactura() {
+        return serieFactura;
+    }
+
+    public String getFurnizor() {
+        return furnizor;
+    }
+
+    public String getIdClient() {
+        return idClient;
     }
 }

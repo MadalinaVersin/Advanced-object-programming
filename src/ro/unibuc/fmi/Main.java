@@ -1,9 +1,9 @@
 package ro.unibuc.fmi;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
 public class Main {
 
     public static void main(String[] args) throws IOException {
@@ -11,7 +11,26 @@ public class Main {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Introduceti codul bancii: ");
         String codBanca = reader.readLine();
+        Persistenta persistenta = Persistenta.getInstance();
         Banca banca = new Banca(codBanca);
+        Angajat angajat = new Angajat();
+        Client client = new Client();
+        ContBancar cont = new ContBancar();
+        Plata plata = new Plata();
+
+
+
+        BufferedReader anjazati = new BufferedReader(new FileReader("angajati.csv"));
+        if(anjazati.readLine() != null) {
+            banca.setAngajatiLista(Persistenta.read(angajat));
+        }
+
+        BufferedReader clienti = new BufferedReader(new FileReader("clienti.csv"));
+        if(clienti.readLine() != null) {
+            banca.setClientiLista(Persistenta.read(client));
+        }
+
+
 
         Serviciu serviciu = new Serviciu();
         System.out.println("Apasati 1 pentru a adauga un client in lista bancii: ");
@@ -21,7 +40,7 @@ public class Main {
         System.out.println("Apasati 5 prntru a introduce un cont la o persoana (! deja existenta): ");
         System.out.println("Apasati 6 pentru a afisa conturile unui client: ");
         System.out.println("Apasati 7 pentru a adauga o plata unui client: ");
-        System.out.println("Apasati 8 pentru a afisa platil facute de un client: ");
+        System.out.println("Apasati 8 pentru a afisa platile facute de un client: ");
         System.out.println("Apasati 9 pentru a afisa suma dintr-un cont: ");
         System.out.println("Apasati 10 pentru a depune numerara intr-un cont: ");
         System.out.println("Apasati 11 pentru a extrage numerar dintr-un cont: ");
@@ -138,6 +157,14 @@ public class Main {
 
                 Serviciu.retragereNumerar(banca, cnpClient, nrCont);
 
+
+            }
+
+            if(optiune == 0){
+                Persistenta.writeToFile(angajat,banca);
+                Persistenta.writeToFile(client,banca);
+                Persistenta.writeToFile(cont,banca);
+                Persistenta.writeToFile(plata,banca);
 
             }
 

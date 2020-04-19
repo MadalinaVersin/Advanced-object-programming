@@ -1,10 +1,20 @@
 package ro.unibuc.fmi;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class Serviciu {
+    public static void audit(String nume, Date data) {
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("audit.csv", true))) {
+            bufferedWriter.write(nume + ',' + data + '\n');
+        } catch (IOException e) {
+            System.out.println("Could not write data to file: " + e.getMessage());
+        }
+
+
+    }
 
     public static void adaugaClient(Banca banca) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -19,8 +29,13 @@ public class Serviciu {
         System.out.println("Introduceti cnp client: ");
         String cnpClinet = reader.readLine();
 
-        Client clientNou = new Client(numeClient, adresaClient, cnpClinet);
+        List<ContBancar> conturi = new ArrayList<ContBancar>();
+        List<Plata> plati = new ArrayList<Plata>();
+
+        Client clientNou = new Client(numeClient, adresaClient, cnpClinet, conturi, plati);
         banca.addClientInList(clientNou);
+
+        audit("Adauga Client",new Date());
 
 
     }
@@ -30,17 +45,18 @@ public class Serviciu {
         banca.afiseazaClienti();
     }
 
-    public static void introduCont(Banca banca,String cnpClient) throws IOException {
+    public static void introduCont(Banca banca, String cnpClient) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        int seGasesteClientul = 0;
+        for (Client client : banca.getClientList()) {
 
-        for (Client client: banca.getClientList()){
 
-
-            if (client.cnp.equals(cnpClient)){
+            if (client.cnp.equals(cnpClient)) {
+                seGasesteClientul = 1;
                 System.out.println("Se creaza un cont: ");
 
                 System.out.println("Pentru a crea un cont de economii introduceti 1 , iar pentru un cont de credit introduceti 2");
-                Integer tipCont = Integer.parseInt(reader.readLine());
+                int tipCont = Integer.parseInt(reader.readLine());
 
                 System.out.println("Se citeste numarul contului bancar: ");
                 String nrContNou = reader.readLine();
@@ -51,30 +67,32 @@ public class Serviciu {
                 System.out.println("Se citeste suma care este introdusa direct in cont: ");
                 Float sumaContNou = Float.parseFloat(reader.readLine());
 
-                if ( tipCont == 1) {
+                if (tipCont == 1) {
 
                     System.out.println("Se citeste dobanda care va fi aplicata sumei: ");
                     Float dobandaContNou = Float.parseFloat(reader.readLine());
 
-                    ContEconomii contEconomiiNou = new ContEconomii(sumaContNou, nrContNou, valutaContNou, dobandaContNou);
+                    ContEconomii contEconomiiNou = new ContEconomii(sumaContNou, nrContNou, valutaContNou, cnpClient, tipCont, dobandaContNou);
                     client.adaugaCont(contEconomiiNou);
 
                 }
-                if ( tipCont == 2) {
+                if (tipCont == 2) {
 
                     System.out.println("Se citeste comisionul care va fi aplicat sumei: ");
                     Float comisionContNou = Float.parseFloat(reader.readLine());
 
-                    ContCredit contCreditNou = new ContCredit(sumaContNou, nrContNou, valutaContNou, comisionContNou);
+                    ContCredit contCreditNou = new ContCredit(sumaContNou, nrContNou, valutaContNou, cnpClient, tipCont, comisionContNou);
                     client.adaugaCont(contCreditNou);
 
                 }
 
             }
-            else{
-                System.out.println("Clientul nu se afla in baza de date !");
-            }
+
         }
+        if (seGasesteClientul == 0) {
+            System.out.println("Clientul nu se afla in baza de date !");
+        }
+        audit("Adauga Cont", new Date());
     }
 
     public static void adaugaAngajat(Banca banca) throws IOException {
@@ -96,6 +114,8 @@ public class Serviciu {
         Angajat angajatNou = new Angajat(numeAngajat, prenumeAngajat, codAngajat, cnpAngajat);
         banca.addAngajatInLista(angajatNou);
 
+        audit("Adauga Angajat", new Date());
+
 
     }
 
@@ -107,7 +127,7 @@ public class Serviciu {
 
     public static void afiseazaConturi(Banca banca, String cnpClient) {
 
-        for (Client client: banca.getClientList()){
+        for (Client client : banca.getClientList()) {
             if (client.cnp.equals(cnpClient)) {
                 client.afiseazaConturiClient();
 
@@ -120,33 +140,26 @@ public class Serviciu {
     public static void adaugaPlata(Banca banca, String cnpClient) throws IOException {
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        for (Client client: banca.getClientList()) {
-
-
+        int seGasesteClientul = 0;
+        for (Client client : banca.getClientList()) {
             if (client.cnp.equals(cnpClient)) {
-
-
-                String numeOperator;
-                System.out.println("Se citeste numele operatorului care efectueaza plata:  ");
-                numeOperator = reader.readLine();
-
-                System.out.println("Se citestse data: ");
-                String data = reader.readLine();
-
-                String ora;
-                System.out.println("Se citeste ora: ");
-                ora = reader.readLine();
+                seGasesteClientul = 1;
 
                 String nrPlata;
                 System.out.println("Se citeste numarul platii: ");
                 nrPlata = reader.readLine();
 
+                System.out.println("Se citeste suma platita: ");
+                Float suma = Float.parseFloat(reader.readLine());
+
                 System.out.println("Daca doriti sa efectuati o plata a unei facturi apasati tasta 1 altfel apasati 2");
 
-                Integer tipPlata;
+                int tipPlata;
                 tipPlata = Integer.parseInt(reader.readLine());
-
                 if (tipPlata == 1) {
+                    Plata plataNoua = new Plata(cnpClient, nrPlata, suma, tipPlata);
+                    client.adaugaPlata(plataNoua);
+                } else if (tipPlata == 2) {
 
                     System.out.println("Se citeste seria facturii: ");
                     String serieFactura = reader.readLine();
@@ -157,19 +170,17 @@ public class Serviciu {
                     System.out.println("Se citeste id-ul facturii: ");
                     String idClient = reader.readLine();
 
-                    PlataFacturi plataNoua = new PlataFacturi(numeOperator, data, ora, nrPlata, serieFactura, furnizor, idClient);
-                    client.adaugaPlata(plataNoua);
-                }
-                else {
-                    Plata plataNoua = new Plata(numeOperator, data, ora, nrPlata);
+                    PlataFacturi plataNoua = new PlataFacturi(cnpClient, nrPlata, suma, tipPlata, serieFactura, furnizor, idClient);
                     client.adaugaPlata(plataNoua);
                 }
 
             }
         }
+        if (seGasesteClientul == 0) {
+            System.out.println("Clientul nu se afla in baza de date !");
+        }
 
-
-
+        audit("Adauga Plata",new Date());
     }
 
     public static void afiseazaPati(Banca banca, String cnpClient) {
@@ -186,15 +197,14 @@ public class Serviciu {
         for (Client client : banca.getClientList()) {
             if (client.getCnp().equals(cnpClient)) {
 
-                for(ContBancar cont : client.getConturiClient()) {
+                for (ContBancar cont : client.getConturiClient()) {
 
                     if (cont.getNumarCont().equals(nrCont)) {
 
                         if (cont instanceof ContEconomii) {
                             ContEconomii contEconomii = (ContEconomii) cont;
                             System.out.println("Suma din acest cont de economii este: " + contEconomii.getSumaTotala());
-                        }
-                        else if (cont instanceof ContCredit) {
+                        } else if (cont instanceof ContCredit) {
                             ContCredit contCredit = (ContCredit) cont;
                             System.out.println("Suma din acest cont de credit este: " + contCredit.getSumaTotala());
 
@@ -213,7 +223,7 @@ public class Serviciu {
         for (Client client : banca.getClientList()) {
             if (client.getCnp().equals(cnpClient)) {
 
-                for(ContBancar cont : client.getConturiClient()) {
+                for (ContBancar cont : client.getConturiClient()) {
 
                     if (cont.getNumarCont().equals(nrCont)) {
 
@@ -225,8 +235,7 @@ public class Serviciu {
                             Float sumaDepusa = Float.parseFloat(reader.readLine());
 
                             System.out.println("Suma din cont, fara a fi adaugata dobanda : " + contEconomii.depunere(sumaDepusa));
-                        }
-                        else if (cont instanceof ContCredit) {
+                        } else if (cont instanceof ContCredit) {
                             ContCredit contCredit = (ContCredit) cont;
                             System.out.println("Acesta este un cont de credit !");
 
@@ -234,7 +243,6 @@ public class Serviciu {
                             Float sumaDepusa = Float.parseFloat(reader.readLine());
 
                             System.out.println("Suma din cont, fara a fi retras comisionul  : " + contCredit.depunere(sumaDepusa));
-
 
 
                         }
@@ -251,7 +259,7 @@ public class Serviciu {
         for (Client client : banca.getClientList()) {
             if (client.getCnp().equals(cnpClient)) {
 
-                for(ContBancar cont : client.getConturiClient()) {
+                for (ContBancar cont : client.getConturiClient()) {
 
                     if (cont.getNumarCont().equals(nrCont)) {
 
@@ -263,8 +271,7 @@ public class Serviciu {
                             Float sumaretrasa = Float.parseFloat(reader.readLine());
 
                             System.out.println("Suma din cont, fara a fi adaugata dobanda  " + contEconomii.extragere(sumaretrasa));
-                        }
-                        else if (cont instanceof ContCredit) {
+                        } else if (cont instanceof ContCredit) {
                             ContCredit contCredit = (ContCredit) cont;
                             System.out.println("Acesta este un cont de credit !");
 
@@ -274,7 +281,6 @@ public class Serviciu {
                             System.out.println("Suma din cont, fara a fi retras comisionul: " + contCredit.extragere(sumaDepusa));
 
 
-
                         }
                     }
                 }
@@ -282,8 +288,6 @@ public class Serviciu {
         }
 
     }
-
-
 
 }
 

@@ -3,18 +3,24 @@ package ro.unibuc.fmi;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Client{
+public class Client {
     String nume;
+    String adresa;
     String cnp;
-    String  adresa;
-    List<ContBancar> conturiClient = new ArrayList<>();
-    List<Plata> platiClient = new ArrayList<>();
+    List<ContBancar> conturiClient;
+    List<Plata> platiClient;
 
-
-    public Client(String nume, String adresa, String cnp) {
+    public Client(String nume, String adresa, String cnp, List<ContBancar> conturi, List<Plata> plati) {
         this.nume = nume;
         this.adresa = adresa;
         this.cnp = cnp;
+        this.conturiClient = conturi;
+        this.platiClient = plati;
+
+
+    }
+
+    public Client() {
 
     }
 
@@ -27,7 +33,7 @@ public class Client{
     public void adaugaPlata(Plata plata) {
 
         platiClient.add(plata);
-        System.out.println("Plata a fost inregistrata !");
+        System.out.println("Plata a fost inregistrata la persoana :" + nume);
     }
 
     public String getAdresa() {
@@ -42,24 +48,29 @@ public class Client{
         return cnp;
     }
 
-
     public List<ContBancar> getConturiClient() {
         return conturiClient;
+    }
+
+    public List<Plata> getPlatiClient() {
+        return platiClient;
     }
 
     @Override
     public int hashCode() {
         return 1;
     }
+
     @Override
     public boolean equals(Object obj) {
-        return cnp.equals(((Client)obj).getCnp());
+        return cnp.equals(((Client) obj).getCnp());
 
     }
+
     public void afiseazaPlatiClient() {
         if (platiClient.size() != 0) {
-            System.out.println("Clientul cu numele "+ nume + "a efectualt platile: ");
-            for (Plata plata: platiClient) {
+            System.out.println("Clientul cu numele " + nume + "a efectualt platile: ");
+            for (Plata plata : platiClient) {
                 System.out.println(plata.nrPlata);
             }
         }
@@ -73,8 +84,7 @@ public class Client{
 
 
             }
-        }
-        else {
+        } else {
             System.out.println("Clientul nu are deschis niciun cont! ");
         }
     }
